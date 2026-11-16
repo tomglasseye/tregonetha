@@ -7,6 +7,7 @@ import {SectionRenderer} from '~/components/SectionRenderer'
 import {SiteLayout} from '~/components/SiteLayout'
 import {buildMeta} from '~/seo'
 import {seoContext} from '~/siteUrl.server'
+import {findRedirect} from '~/lib/redirects.server'
 import type {PageDoc, SiteData} from '~/types'
 
 export async function loader({request, params}: Route.LoaderArgs) {
@@ -19,6 +20,9 @@ export async function loader({request, params}: Route.LoaderArgs) {
   ])
 
   if (!page.data) {
+    // Not a page — maybe an old address an editor has pointed somewhere new.
+    const moved = preview ? null : await findRedirect(request)
+    if (moved) throw moved
     throw new Response('Not found', {status: 404})
   }
 

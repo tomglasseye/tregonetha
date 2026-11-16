@@ -17,4 +17,7 @@ export default [
   // Everything else is a Sanity page or location page, resolved by slug.
   // Declared last so it never shadows the routes above.
   route(':slug', 'routes/page.tsx'),
+
+  // Deeper paths: only editor-defined redirects can resolve them.
+  route('*', 'routes/splat.tsx'),
 ] satisfies RouteConfig

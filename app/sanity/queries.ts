@@ -190,6 +190,11 @@ export const SLUG_QUERY = defineQuery(/* groq */ `
   }
 `)
 
+/** An old address that should be sent somewhere else. Published docs only. */
+export const REDIRECT_QUERY = defineQuery(/* groq */ `
+  *[_type == "redirect" && lower(from) in [$path, $pathSlash]][0]{to, permanent}
+`)
+
 /** Used to prerender/validate routes at build time. */
 export const ALL_SLUGS_QUERY = defineQuery(/* groq */ `
   *[_type == "page" && defined(slug.current)].slug.current

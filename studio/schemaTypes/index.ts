@@ -31,6 +31,7 @@ import {embed} from './sections/embed'
 import {page} from './documents/page'
 import {testimonial} from './documents/testimonial'
 import {event} from './documents/event'
+import {redirect} from './documents/redirect'
 import {siteSettings} from './documents/siteSettings'
 import {navigation} from './documents/navigation'
 
@@ -63,6 +64,7 @@ export const documents = [
   page,
   testimonial,
   event,
+  redirect,
   siteSettings,
   navigation,
 ]

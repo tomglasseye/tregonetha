@@ -4,6 +4,7 @@ import {MenuIcon} from '@sanity/icons/Menu'
 import {DocumentIcon} from '@sanity/icons/Document'
 import {CommentIcon} from '@sanity/icons/Comment'
 import {CalendarIcon} from '@sanity/icons/Calendar'
+import {ArrowRightIcon} from '@sanity/icons/ArrowRight'
 
 /** Singletons are pinned; everything else lists normally. */
 export const structure: StructureResolver = (S) =>
@@ -30,6 +31,15 @@ export const structure: StructureResolver = (S) =>
         .child(S.documentTypeList('testimonial').title('Testimonials')),
 
       S.divider(),
+
+      S.listItem()
+        .title('Redirects (old addresses)')
+        .icon(ArrowRightIcon)
+        .child(
+          S.documentTypeList('redirect')
+            .title('Redirects')
+            .defaultOrdering([{field: 'from', direction: 'asc'}]),
+        ),
 
       S.listItem()
         .title('Site settings')
