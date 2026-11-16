@@ -5,6 +5,7 @@ import {Section as Wrapper, toneMuted} from '../ui/Section'
 import {Reveal} from '../ui/Reveal'
 import {SectionHeader} from './SectionHeader'
 import {opt} from '~/lib/stega'
+import {eventsJsonLd} from '~/seo'
 
 const DAY = new Intl.DateTimeFormat('en-GB', {weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC'})
 
@@ -23,6 +24,7 @@ export function Events({section, settings}: {section: EventsSection; settings?: 
   const muted = toneMuted(tone)
   const card = onDark ? 'bg-cream/10' : tone === 'mist' ? 'bg-cream' : 'bg-mist-soft'
   const items = (section.items ?? []).slice(0, section.limit ?? 6)
+  const jsonLd = eventsJsonLd(items, settings)
 
   return (
     <Wrapper appearance={appearance} reveal={false}>
@@ -81,6 +83,14 @@ export function Events({section, settings}: {section: EventsSection; settings?: 
       )}
 
       <ButtonRow buttons={buttons} settings={settings} tone={tone} className="mt-10" />
+
+      {jsonLd ? (
+        <script
+          type="application/ld+json"
+          // `<` escaped so text typed in Studio can never close the script element.
+          dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd).replace(/</g, '\\u003c')}}
+        />
+      ) : null}
     </Wrapper>
   )
 }

@@ -1,7 +1,7 @@
 import type {PageDoc, SiteData} from '~/types'
 import {Header} from './Header'
 import {Footer} from './Footer'
-import {breadcrumbJsonLd, localBusinessJsonLd} from '~/seo'
+import {breadcrumbJsonLd, localBusinessJsonLd, pageEntityJsonLd} from '~/seo'
 
 /**
  * A structured-data block.
@@ -37,8 +37,9 @@ export function SiteLayout({
   // LocalBusiness describes the organisation rather than the page, so it ships
   // on the homepage alone — repeating it site-wide hands Google several copies
   // of one entity to reconcile.
-  const business = includeJsonLd ? localBusinessJsonLd(site?.settings, siteUrl) : null
+  const business = includeJsonLd ? localBusinessJsonLd(site?.settings, siteUrl, page) : null
   const breadcrumbs = siteUrl ? breadcrumbJsonLd(page, siteUrl) : null
+  const entity = pageEntityJsonLd(page, site?.settings, siteUrl)
 
   return (
     <>
@@ -47,6 +48,7 @@ export function SiteLayout({
       <Footer navigation={site?.navigation} settings={site?.settings} />
       <JsonLd data={business} />
       <JsonLd data={breadcrumbs} />
+      <JsonLd data={entity} />
     </>
   )
 }

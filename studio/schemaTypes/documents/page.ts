@@ -69,6 +69,21 @@ export const page = defineType({
       validation: (r) => r.required().min(1),
     }),
     defineField({name: 'seo', type: 'seo', group: 'seo'}),
+    defineField({
+      name: 'schemaType',
+      title: 'This page is about',
+      type: 'string',
+      group: 'seo',
+      description:
+        'Tells Google what this page describes, so it can show it as a place in its own right. Leave blank for ordinary pages.',
+      options: {
+        list: [
+          {title: 'A bar or restaurant (Wildfire)', value: 'BarOrPub'},
+          {title: 'A wedding or event venue', value: 'EventVenue'},
+        ],
+        layout: 'radio',
+      },
+    }),
   ],
   preview: {
     select: {title: 'title', slug: 'slug.current', home: 'isHomepage', sections: 'sections'},
