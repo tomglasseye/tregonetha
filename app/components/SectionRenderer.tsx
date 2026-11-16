@@ -22,6 +22,7 @@ import {Events} from './sections/Events'
 import {Catches} from './sections/Catches'
 import {Embed} from './sections/Embed'
 import {IconNav} from './sections/IconNav'
+import {Campsuite} from './sections/Campsuite'
 
 /** Each component receives exactly the section shape its `_type` implies. */
 type SectionComponents = {
@@ -61,6 +62,7 @@ const REGISTRY: SectionComponents = {
   catches: Catches,
   embed: Embed,
   iconNav: IconNav,
+  campsuite: Campsuite,
 }
 
 /**

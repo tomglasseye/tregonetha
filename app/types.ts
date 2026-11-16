@@ -363,6 +363,12 @@ export type EmbedSection = BaseSection & {
   title?: string
 }
 
+export type CampsuiteSection = BaseSection & {
+  _type: 'campsuite'
+  layout?: 'search' | 'bar' | 'calendar'
+  calendars?: {_key: string; label?: string; typeId?: number}[] | null
+}
+
 export type AnySection =
   | HeroSection
   | StatementSection
@@ -386,6 +392,7 @@ export type AnySection =
   | EventsSection
   | CatchesSection
   | EmbedSection
+  | CampsuiteSection
 
 export type IconNavSection = BaseSection & {
   _type: 'iconNav'

@@ -25,6 +25,7 @@ export const SECTION_TYPES = [
   'catches',
   'embed',
   'iconNav',
+  'campsuite',
 ] as const
 
 export const page = defineType({
@@ -65,7 +66,7 @@ export const page = defineType({
         {name: 'body', title: 'Body', of: ['iconNav', 'serviceCards', 'richText', 'textWithImage', 'featureList', 'faq']},
         {name: 'details', title: 'Prices & details', of: ['priceTable', 'infoList', 'menus', 'events']},
         {name: 'proof', title: 'Proof', of: ['catches', 'testimonials', 'gallery', 'logoStrip', 'stats']},
-        {name: 'convert', title: 'Book & contact', of: ['embed', 'callToAction', 'contactForm', 'contactDetails']},
+        {name: 'convert', title: 'Book & contact', of: ['campsuite', 'embed', 'callToAction', 'contactForm', 'contactDetails']},
       ]}},
       validation: (r) => r.required().min(1),
     }),

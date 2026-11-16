@@ -27,6 +27,7 @@ import {menus} from './sections/menus'
 import {events} from './sections/events'
 import {catches} from './sections/catches'
 import {embed} from './sections/embed'
+import {campsuite} from './sections/campsuite'
 import {iconNav} from './sections/iconNav'
 
 // Documents
@@ -62,6 +63,7 @@ export const sections = [
   events,
   catches,
   embed,
+  campsuite,
   iconNav,
 ]
 
