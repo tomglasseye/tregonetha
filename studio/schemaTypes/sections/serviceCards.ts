@@ -1,5 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {ThLargeIcon} from '@sanity/icons/ThLarge'
+import {ICON_OPTIONS} from './iconNav'
 
 /** The homepage's five cards that link off to the service pages. */
 export const serviceCards = defineType({
@@ -33,6 +34,7 @@ export const serviceCards = defineType({
             }),
             defineField({name: 'summary', type: 'text', rows: 4, validation: (r) => r.required()}),
             defineField({name: 'image', type: 'figure'}),
+            defineField({name: 'icon', type: 'string', options: {list: ICON_OPTIONS}, description: 'Symbol shown on the card.'}),
           ],
           preview: {
             select: {title: 'title', pageTitle: 'page.title', media: 'image', subtitle: 'summary'},

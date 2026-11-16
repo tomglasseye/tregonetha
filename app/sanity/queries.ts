@@ -61,9 +61,16 @@ const sectionsFragment = /* groq */ `
       }
     },
 
+    _type == "iconNav" => {
+      items[] {
+        _key, icon, label, sublabel,
+        "href": select(page->isHomepage == true => "/", "/" + page->slug.current)
+      }
+    },
+
     _type == "serviceCards" => {
       cards[] {
-        _key, summary,
+        _key, summary, icon,
         "title": coalesce(title, page->title),
         "href": select(page->isHomepage == true => "/", "/" + page->slug.current),
         image { ${imageFragment} }

@@ -26,6 +26,7 @@ import {infoList} from './sections/infoList'
 import {menus} from './sections/menus'
 import {events} from './sections/events'
 import {embed} from './sections/embed'
+import {iconNav} from './sections/iconNav'
 
 // Documents
 import {page} from './documents/page'
@@ -58,6 +59,7 @@ export const sections = [
   menus,
   events,
   embed,
+  iconNav,
 ]
 
 export const documents = [

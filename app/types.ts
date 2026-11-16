@@ -151,7 +151,7 @@ export type InstagramPost = {
 
 export type HeroSection = BaseSection & {
   _type: 'hero'
-  layout?: 'full' | 'banner' | 'split' | 'text'
+  layout?: 'panel' | 'full' | 'banner' | 'split' | 'text'
   standfirst?: string
   showLogo?: boolean
   image?: SanityImage
@@ -195,6 +195,7 @@ export type ServiceCard = {
   title?: string
   summary?: string
   href?: string
+  icon?: string
   image?: SanityImage
 }
 
@@ -360,8 +361,14 @@ export type AnySection =
   | ImageBannerSection
   | PriceTableSection
   | InfoListSection
+  | IconNavSection
   | MenusSection
   | EventsSection
   | EmbedSection
+
+export type IconNavSection = BaseSection & {
+  _type: 'iconNav'
+  items?: {_key?: string; icon?: string; label?: string; sublabel?: string; href?: string}[] | null
+}
 
 export type SectionType = AnySection['_type']

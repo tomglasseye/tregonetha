@@ -10,9 +10,10 @@ export const hero = defineType({
     defineField({
       name: 'layout',
       type: 'string',
-      initialValue: 'full',
+      initialValue: 'panel',
       options: {
         list: [
+          {title: 'Photo left, sage panel right (home, camping)', value: 'panel'},
           {title: 'Full-width photo, logo and text centred (homepage)', value: 'full'},
           {title: 'Photo banner, title bottom left (inner pages)', value: 'banner'},
           {title: 'Split — text beside image', value: 'split'},
@@ -32,7 +33,7 @@ export const hero = defineType({
       name: 'eyebrow',
       type: 'string',
       description:
-        'Small label. Above the heading on inner pages; under it on the full-width hero, e.g. "Fishing · Camping · Glamping".',
+        'Small label. Above the heading, e.g. "Open all year round". Under it on the full-width hero.',
     }),
     defineField({name: 'heading', type: 'string', validation: (r) => r.required()}),
     defineField({

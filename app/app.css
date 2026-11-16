@@ -2,28 +2,31 @@
 
 /* ---------------------------------------------------------------------------
    Tregonetha Lake design tokens.
-   Lake greens, mist and cream with an ember-orange accent, taken from the
-   design signed off in Claude Design (Nov 2026). Wavy lines are the motif:
-   section edges, heading underlines and the faint lines behind the hero.
+   Soft sage greens with deep lake green text and bright turquoise buttons,
+   set in Montserrat — the style Mel asked for (Nov 2026). Wavy lines are the
+   motif: section edges, heading underlines and the faint lines behind heroes.
 --------------------------------------------------------------------------- */
 @theme {
   /* Colour ------------------------------------------------------------- */
   --color-lake: #0e4a43;      /* primary dark: footer, dark panels, headings */
   --color-lake-soft: #155d54; /* hover on lake */
   --color-teal: #0f6258;      /* links, eyebrows — 7:1 on cream */
-  --color-mist: #dde9e3;      /* light panel tint */
-  --color-mist-soft: #eaf2ee;
-  --color-cream: #f8f5ea;     /* page ground */
+  --color-mist: #d8e6db;      /* soft sage: header, hero panel, tinted sections */
+  --color-mist-soft: #e6efe7;
+  --color-cream: #f4f7f1;     /* page ground */
   --color-ember: #e8731f;     /* accent for squiggles and fills, never text */
   --color-ember-soft: #f0914a;
-  --color-ember-ink: #b84c0a; /* the accent as a button fill or text — white on it passes AA */
+  --color-ember-ink: #b84c0a; /* errors only */
+  --color-aqua: #14b8cc;      /* bright turquoise: every booking / call-to-action button */
+  --color-aqua-deep: #0c9aae; /* hover */
+  --color-aqua-ink: #06312c;  /* text on aqua — 7:1; white on this turquoise would fail AA */
   --color-ink: #17302c;       /* body text */
   --color-muted: #3f534e;     /* secondary text — 6.5:1 on mist */
   --color-rule: #b9cfc6;      /* hairlines */
 
   /* Type --------------------------------------------------------------- */
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
-  --font-body: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Montserrat", ui-sans-serif, system-ui, sans-serif;
 
   --text-display: 4.5rem;
   --text-display--line-height: 1.05;
@@ -62,10 +65,10 @@
 /* Fluid display sizes — 72px must never reach a 390px viewport. */
 @layer base {
   :root {
-    --step-display: clamp(2.5rem, 1.4rem + 5.2vw, 4.5rem);
-    --step-4xl: clamp(2rem, 1.3rem + 3.4vw, 3.375rem);
-    --step-3xl: clamp(1.75rem, 1.35rem + 1.9vw, 2.5rem);
-    --step-2xl: clamp(1.5rem, 1.28rem + 1.05vw, 2rem);
+    --step-display: clamp(2.25rem, 1.4rem + 4.2vw, 4rem);
+    --step-4xl: clamp(1.75rem, 1.25rem + 2.6vw, 2.875rem);
+    --step-3xl: clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);
+    --step-2xl: clamp(1.3rem, 1.15rem + 0.8vw, 1.75rem);
   }
 
   html {
@@ -113,11 +116,11 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Fraunces at 400 throughout; the size does the work. */
+  /* Montserrat bold for headings; tight tracking keeps the wide letterforms compact. */
   h1, h2, h3, h4, h5 {
     font-family: var(--font-display);
-    font-weight: 400;
-    font-optical-sizing: auto;
+    font-weight: 700;
+    color: var(--color-lake);
   }
 
   :focus-visible {
@@ -327,17 +330,17 @@
     pointer-events: none;
   }
 
-  /* The short orange squiggle under section headings. */
+  /* The short turquoise squiggle under section headings. */
   .u-squiggle {
     display: block;
     width: 8.5rem;
     height: 0.75rem;
     margin-top: 0.9rem;
-    color: var(--color-ember);
+    color: var(--color-aqua);
   }
 
-  .u-display { font-size: var(--step-display); line-height: 1.05; letter-spacing: -0.02em; }
-  .u-h2      { font-size: var(--step-4xl);     line-height: 1.02; letter-spacing: -0.015em; }
+  .u-display { font-size: var(--step-display); line-height: 1.08; letter-spacing: -0.025em; font-weight: 700; }
+  .u-h2      { font-size: var(--step-4xl);     line-height: 1.1; letter-spacing: -0.02em; }
   .u-h3      { font-size: var(--step-3xl);     line-height: 1.15; }
   .u-h4      { font-size: var(--step-2xl);     line-height: 1.2; }
 
@@ -373,5 +376,13 @@
     font-family: var(--font-display);
     font-size: var(--text-lg);
     font-style: italic;
+  }
+}
+
+/* Icon strip: thin vertical dividers between items on wide screens. */
+@layer components {
+  .u-icon-nav > li + li { border-left: 1px solid var(--color-rule); }
+  @media (max-width: 63.99rem) {
+    .u-icon-nav > li + li { border-left: 0; }
   }
 }

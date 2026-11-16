@@ -3,6 +3,7 @@ import type {ServiceCardsSection} from '~/types'
 import {Figure} from '../ui/Figure'
 import {Section as Wrapper, toneMuted} from '../ui/Section'
 import {Reveal} from '../ui/Reveal'
+import {LineIcon} from '../ui/LineIcon'
 import {opt} from '~/lib/stega'
 
 export function ServiceCards({section}: {section: ServiceCardsSection}) {
@@ -21,31 +22,38 @@ export function ServiceCards({section}: {section: ServiceCardsSection}) {
         </Reveal>
       ) : null}
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className={`grid gap-6 sm:grid-cols-2 ${cards.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}>
         {cards.map((c, i) => {
           return (
             <Reveal key={c._key ?? i} delay={Math.min(i, 4) * 110} className="h-full">
             <Link
               to={c.href ?? '#'}
-              className={`group flex h-full flex-col overflow-hidden rounded-panel no-underline transition-colors ${
-                onDark ? 'bg-cream/10 hover:bg-cream/15' : 'bg-mist-soft hover:bg-mist'
+              className={`group flex h-full flex-col overflow-hidden rounded-[1.25rem] no-underline shadow-[0_1px_2px_rgba(14,74,67,0.08)] transition-shadow hover:shadow-[0_8px_24px_rgba(14,74,67,0.14)] ${
+                onDark ? 'bg-cream/10' : 'bg-white'
               }`}
             >
-              <Figure
-                image={c.image}
-                rounded={false}
-                aspect={4 / 3}
-                className="aspect-[4/3] overflow-hidden"
-                imgClassName="transition-transform duration-500 group-hover:scale-[1.03]"
-                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-              />
-              <div className="flex flex-1 flex-col p-6">
-                <h3 className={`text-xl font-display ${onDark ? 'text-cream' : 'text-lake'}`}>
+              <div className="relative">
+                <Figure
+                  image={c.image}
+                  rounded={false}
+                  aspect={4 / 3}
+                  className="aspect-[4/3] overflow-hidden"
+                  imgClassName="transition-transform duration-500 group-hover:scale-[1.04]"
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                />
+                {c.icon ? (
+                  <span className="absolute -bottom-6 left-5 flex h-12 w-12 items-center justify-center rounded-full bg-mist text-lake shadow-sm">
+                    <LineIcon name={c.icon} className="h-7 w-7" />
+                  </span>
+                ) : null}
+              </div>
+              <div className={`flex flex-1 flex-col px-5 pb-6 ${c.icon ? 'pt-9' : 'pt-5'}`}>
+                <h3 className={`text-lg font-bold ${onDark ? 'text-cream' : 'text-lake'}`}>
                   {c.title}
                 </h3>
                 {c.summary ? <p className={`mt-3 flex-1 text-sm ${muted}`}>{c.summary}</p> : null}
                 <span
-                  className={`mt-5 inline-flex items-center gap-2 text-sm ${
+                  className={`mt-5 inline-flex items-center gap-2 text-sm font-semibold ${
                     onDark ? 'text-cream' : 'text-teal'
                   }`}
                 >

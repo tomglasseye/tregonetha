@@ -13,6 +13,52 @@ export function Hero({section, settings}: {section: HeroSection; settings?: Site
   const {eyebrow, heading, standfirst, image, buttons, appearance} = section
   const layout = opt(section.layout) ?? 'full'
 
+  if (layout === 'panel') {
+    // Photo on the left that melts into a soft sage panel, with the title,
+    // line and turquoise button on the right and a wave rising across the
+    // bottom. Stacks on phones: photo first, then the panel.
+    return (
+      <section id={opt(appearance?.anchorId)} data-tone="mist" className="relative bg-mist text-lake">
+        <div className="grid lg:grid-cols-[1.2fr_1fr]">
+          <div className="relative min-h-[18rem] sm:min-h-[24rem] lg:min-h-[36rem]">
+            <Figure
+              image={image}
+              priority
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              rounded={false}
+              className="absolute inset-0 h-full w-full"
+            />
+            {/* The photo fades into the panel along its right-hand edge. */}
+            <div
+              aria-hidden
+              className="absolute inset-y-0 right-0 hidden w-40 bg-gradient-to-r from-transparent to-mist lg:block"
+            />
+            <div
+              aria-hidden
+              className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-mist to-transparent lg:hidden"
+            />
+          </div>
+          <div className="relative flex flex-col justify-center px-6 pb-24 pt-8 sm:px-10 lg:px-14 lg:pb-28 lg:pt-16">
+            {eyebrow ? (
+              <p className="u-eyebrow mb-5 flex items-center gap-4 font-bold tracking-[0.22em] text-lake">
+                <span aria-hidden className="h-px w-8 bg-lake/60 sm:w-12" />
+                {eyebrow}
+                <span aria-hidden className="hidden h-px w-8 bg-lake/60 sm:block sm:w-12" />
+              </p>
+            ) : null}
+            <h1 className="u-display max-w-[12ch] text-lake">{heading}</h1>
+            {standfirst ? (
+              <p className="mt-6 max-w-[34ch] text-lg font-medium text-ink">{standfirst}</p>
+            ) : null}
+            <ButtonRow buttons={buttons} settings={settings} arrow className="mt-8" />
+          </div>
+        </div>
+        {/* Page-coloured wave rising over the bottom of both halves. */}
+        <WaveEdge className="pointer-events-none absolute inset-x-0 -bottom-px z-10 h-10 w-full rotate-180 text-cream md:h-14" />
+      </section>
+    )
+  }
+
   if (layout === 'full') {
     // Full-bleed lake photo with the logo, name and tagline centred over it, as
     // on the current site. With no photo yet it falls back to the dark lake

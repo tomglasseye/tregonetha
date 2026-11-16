@@ -7,6 +7,8 @@ type Props = {
   settings?: SiteSettings
   tone?: Tone
   className?: string
+  /** Adds the little chevron seen on the hero button. */
+  arrow?: boolean
 }
 
 const BASE =
@@ -24,8 +26,9 @@ function classesFor(variant: string, tone?: Tone) {
         ? 'inline-flex items-center gap-2 text-cream underline underline-offset-4 hover:text-mist'
         : 'inline-flex items-center gap-2 text-teal underline underline-offset-4 hover:text-lake'
     default:
-      // Ember on every ground: it is the one call to action colour on the site.
-      return `${BASE} bg-ember-ink text-white hover:bg-[#9a3f08]`
+      // Bright turquoise on every ground: the one call to action colour on the site.
+      // Dark text, because white on this turquoise is only ~2.5:1.
+      return `${BASE} bg-aqua text-aqua-ink hover:bg-aqua-deep`
   }
 }
 
@@ -54,7 +57,7 @@ export function telHref(phone: string): string {
   return `tel:${phone.replace(/[^+\d]/g, '')}`
 }
 
-export function Button({cta, settings, tone, className = ''}: Props) {
+export function Button({cta, settings, tone, className = '', arrow = false}: Props) {
   if (!cta?.label) return null
 
   const href = resolveHref(cta, settings)
@@ -65,6 +68,7 @@ export function Button({cta, settings, tone, className = ''}: Props) {
     return (
       <Link to={href} className={classes}>
         {cta.label}
+        {arrow ? <span aria-hidden>&rsaquo;</span> : null}
       </Link>
     )
   }
@@ -76,6 +80,7 @@ export function Button({cta, settings, tone, className = ''}: Props) {
       {...(cta.link?.newTab ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
     >
       {cta.label}
+      {arrow ? <span aria-hidden>&rsaquo;</span> : null}
     </a>
   )
 }
@@ -85,17 +90,19 @@ export function ButtonRow({
   settings,
   tone,
   className = '',
+  arrow = false,
 }: {
   buttons?: Cta[] | null
   settings?: SiteSettings
   tone?: Tone
   className?: string
+  arrow?: boolean
 }) {
   if (!buttons?.length) return null
   return (
     <div className={`flex flex-wrap items-center gap-4 ${className}`}>
       {buttons.map((cta, i) => (
-        <Button key={cta._key ?? i} cta={cta} settings={settings} tone={tone} />
+        <Button key={cta._key ?? i} cta={cta} settings={settings} tone={tone} arrow={arrow} />
       ))}
     </div>
   )

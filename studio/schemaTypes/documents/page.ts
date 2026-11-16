@@ -23,6 +23,7 @@ export const SECTION_TYPES = [
   'menus',
   'events',
   'embed',
+  'iconNav',
 ] as const
 
 export const page = defineType({
@@ -60,7 +61,7 @@ export const page = defineType({
       of: SECTION_TYPES.map((type) => defineArrayMember({type})),
       options: {insertMenu: {filter: true, groups: [
         {name: 'lead', title: 'Lead', of: ['hero', 'imageBanner', 'statement']},
-        {name: 'body', title: 'Body', of: ['richText', 'textWithImage', 'featureList', 'serviceCards', 'faq']},
+        {name: 'body', title: 'Body', of: ['iconNav', 'serviceCards', 'richText', 'textWithImage', 'featureList', 'faq']},
         {name: 'details', title: 'Prices & details', of: ['priceTable', 'infoList', 'menus', 'events']},
         {name: 'proof', title: 'Proof', of: ['testimonials', 'gallery', 'logoStrip', 'stats']},
         {name: 'convert', title: 'Book & contact', of: ['embed', 'callToAction', 'contactForm', 'contactDetails']},

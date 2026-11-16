@@ -20,6 +20,7 @@ import {InfoList} from './sections/InfoList'
 import {Menus} from './sections/Menus'
 import {Events} from './sections/Events'
 import {Embed} from './sections/Embed'
+import {IconNav} from './sections/IconNav'
 
 /** Each component receives exactly the section shape its `_type` implies. */
 type SectionComponents = {
@@ -57,6 +58,7 @@ const REGISTRY: SectionComponents = {
   menus: Menus,
   events: Events,
   embed: Embed,
+  iconNav: IconNav,
 }
 
 /**

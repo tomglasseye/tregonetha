@@ -64,16 +64,16 @@ export function Header({
 				className={`sticky top-0 z-50 transition-colors duration-300 ${
 					open
 						? "bg-transparent text-cream"
-						: "bg-lake text-cream"
+						: "bg-mist text-lake shadow-[0_1px_0_0_rgba(14,74,67,0.08)]"
 				}`}
 			>
 				<div className="u-container flex h-20 items-center justify-between gap-6 md:h-24">
 					<Link
 						to="/"
-						className="flex shrink-0 items-center gap-3 font-display text-lg leading-tight text-cream no-underline md:text-xl"
+						className="flex shrink-0 items-center gap-3 font-display text-lg font-bold leading-tight text-inherit no-underline md:text-xl"
 					>
 						<img
-							src={logoSrc(settings, 112)}
+							src={logoSrc(settings, 112, open ? "light" : "dark")}
 							alt=""
 							width={56}
 							height={56}
@@ -97,7 +97,7 @@ export function Header({
 								key={item._key ?? i}
 								to={resolveHref({ link: item.link }, settings)}
 								className={({ isActive }) =>
-									`u-link whitespace-nowrap text-[0.9375rem] font-medium ${isActive ? "text-cream decoration-ember" : "text-cream/85 hover:text-cream"}`
+									`u-link whitespace-nowrap text-[0.9375rem] font-semibold text-lake ${isActive ? "[background-size:100%_2px]" : "opacity-90 hover:opacity-100"}`
 								}
 							>
 								{item.label}
@@ -118,7 +118,7 @@ export function Header({
 							{phone ? (
 								<a
 									href={telHref(phone)}
-									className="hidden items-center gap-2 whitespace-nowrap text-base text-cream/85 no-underline transition-colors hover:text-cream md:inline-flex xl:hidden"
+									className="hidden items-center gap-2 whitespace-nowrap text-base font-semibold text-lake no-underline transition-colors hover:text-teal md:inline-flex xl:hidden"
 								>
 									{phone}
 									{/* <PhoneIcon className="h-4 w-4" /> */}
@@ -132,7 +132,7 @@ export function Header({
 							<a
 								href={telHref(phone)}
 								aria-label={`Call ${settings?.phoneLabel ?? "us"} on ${phone}`}
-								className={`inline-flex h-11 w-11 items-center justify-center text-cream transition-opacity duration-200 md:hidden ${
+								className={`inline-flex h-11 w-11 items-center justify-center text-lake transition-opacity duration-200 md:hidden ${
 									open
 										? "pointer-events-none opacity-0"
 										: "opacity-100"
@@ -162,7 +162,7 @@ export function Header({
 							onClick={() => setOpen((v) => !v)}
 							aria-expanded={open}
 							aria-controls="site-menu"
-							className="relative inline-flex h-11 w-11 items-center justify-center rounded-input transition-colors hover:text-mist"
+							className="relative inline-flex h-11 w-11 items-center justify-center rounded-input transition-colors hover:text-teal"
 						>
 							<span className="sr-only">
 								{open ? "Close menu" : "Open menu"}
