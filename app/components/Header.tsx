@@ -67,7 +67,11 @@ export function Header({
 						: "bg-mist text-lake shadow-[0_1px_0_0_rgba(14,74,67,0.08)]"
 				}`}
 			>
+				{/* On desktop the logo and the buttons get equal-width side columns, so
+				    the links sit in the true centre of the bar rather than wherever
+				    the leftover space happens to fall. */}
 				<div className="u-container flex h-20 items-center justify-between gap-6 md:h-24">
+					<div className="flex xl:flex-1 xl:basis-0">
 					<Link
 						to="/"
 						className="flex shrink-0 items-center gap-3 font-display text-lg font-bold leading-tight text-inherit no-underline md:text-xl"
@@ -83,10 +87,11 @@ export function Header({
 							{settings?.businessName ?? "Tregonetha Lake"}
 						</span>
 					</Link>
+					</div>
 
 					<nav
 						aria-label="Main"
-						className={`ml-auto hidden items-center gap-6 transition-opacity duration-200 xl:flex ${
+						className={`hidden items-center gap-6 transition-opacity duration-200 xl:flex 2xl:gap-8 ${
 							open
 								? "pointer-events-none opacity-0"
 								: "opacity-100"
@@ -100,13 +105,13 @@ export function Header({
 									`u-link whitespace-nowrap text-[0.9375rem] font-semibold text-lake ${isActive ? "[background-size:100%_2px]" : "opacity-90 hover:opacity-100"}`
 								}
 							>
-								{item.label}
+								{item.barLabel || item.label}
 							</NavLink>
 						))}
 					</nav>
 
 					<div
-						className={`flex items-center gap-3 ${barLinks.length ? "" : "ml-auto"} lg:gap-5`}
+						className={`flex items-center justify-end gap-3 xl:flex-1 xl:basis-0 ${barLinks.length ? "" : "ml-auto"} lg:gap-5`}
 					>
 						<span
 							className={`transition-opacity duration-200 ${

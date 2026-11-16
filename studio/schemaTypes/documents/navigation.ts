@@ -25,7 +25,15 @@ export const navigation = defineType({
               type: 'boolean',
               initialValue: false,
               description:
-                'Every link appears in the menu overlay. Tick this for the few that also sit across the header on desktop — four or five is the practical limit before it crowds the phone number.',
+                'Every link appears in the menu overlay. Tick this for the few that also sit across the header on desktop — five short ones is the limit before the bar can no longer sit centred.',
+            }),
+            defineField({
+              name: 'barLabel',
+              title: 'Shorter label for the top bar',
+              type: 'string',
+              description:
+                'Optional. Shown in the top bar instead of the label above, which the menu overlay keeps — e.g. "Wildfire" for "Wildfire Lakeside Bar & Kitchen".',
+              hidden: ({parent}) => !parent?.showInBar,
             }),
             defineField({
               name: 'children',

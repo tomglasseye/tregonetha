@@ -168,7 +168,7 @@ export const SITE_QUERY = defineQuery(/* groq */ `{
   },
   "navigation": *[_type == "navigation"][0] {
     headerLinks[] {
-      _key, label, showInBar,
+      _key, label, barLabel, showInBar,
       link { ${linkFragment} },
       children[] { _key, label, link { ${linkFragment} } }
     },

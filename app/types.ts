@@ -73,6 +73,7 @@ export type NavItem = {
   label?: string
   link?: ResolvedLink
   showInBar?: boolean
+  barLabel?: string
   children?: NavItem[] | null
 }
 
