@@ -138,7 +138,7 @@ export function Hero({section, settings}: {section: HeroSection; settings?: Site
               </div>
               <div
                 aria-hidden
-                className="absolute inset-0 bg-gradient-to-t from-lake/90 via-lake/45 to-lake/20"
+                className="absolute inset-0 bg-gradient-to-t from-lake/90 via-lake/65 to-lake/45"
               />
             </>
           ) : (
