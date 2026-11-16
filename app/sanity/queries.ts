@@ -173,7 +173,7 @@ export const SITE_QUERY = defineQuery(/* groq */ `{
 
 export const HOME_QUERY = defineQuery(/* groq */ `
   *[_type == "page" && isHomepage == true][0] {
-    _id, _type, title,
+    _id, _type, title, isHomepage,
     "slug": slug.current,
     ${sectionsFragment},
     ${seoFragment}
@@ -192,7 +192,7 @@ export const PAGE_QUERY = defineQuery(/* groq */ `
 /** A page by slug. */
 export const SLUG_QUERY = defineQuery(/* groq */ `
   *[_type == "page" && slug.current == $slug][0] {
-    _id, _type, title, "slug": slug.current, isHomepage,
+    _id, _type, title, "slug": slug.current, isHomepage, schemaType,
     ${sectionsFragment}, ${seoFragment}
   }
 `)

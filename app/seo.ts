@@ -1,5 +1,5 @@
 import {stegaClean} from '@sanity/client/stega'
-import type {PageDoc, SiteSettings} from './types'
+import type {EventDoc, PageDoc, SanityImage, SiteSettings} from './types'
 import {urlFor} from './sanity/image'
 
 /**
@@ -23,6 +23,41 @@ function shareImageUrl(image: unknown, width: number, height: number) {
     .url()
 }
 
+/**
+ * The page's first hero photo, if it has one. Used as the share picture when
+ * no share image has been set in Studio, so links posted to Facebook or
+ * WhatsApp always carry a picture without anyone having to remember to add one.
+ */
+export function heroImage(page?: PageDoc | null): SanityImage | undefined {
+  const hero = page?.sections?.find((s) => s._type === 'hero') as
+    | {image?: SanityImage}
+    | undefined
+  return hero?.image?.asset ? hero.image : undefined
+}
+
+/** Where the lake is, from the Google Maps listing. */
+const GEO = {'@type': 'GeoCoordinates', latitude: 50.4439864, longitude: -4.8868606}
+
+/** "07974 937649" → "+44 7974 937649": the international form Google asks for. */
+function intlPhone(phone?: string) {
+  if (!phone) return undefined
+  const p = phone.trim()
+  return p.startsWith('0') ? `+44 ${p.slice(1)}` : p
+}
+
+function postalAddress(settings?: SiteSettings) {
+  const a = settings?.address
+  if (!a) return undefined
+  return {
+    '@type': 'PostalAddress',
+    streetAddress: [a.line1, a.line2].filter(Boolean).join(', '),
+    addressLocality: a.town,
+    addressRegion: a.county,
+    postalCode: a.postcode,
+    addressCountry: 'GB',
+  }
+}
+
 /** Meta tags for a page, falling back to the site defaults from Studio. */
 export function buildMeta(page?: PageDoc | null, settings?: SiteSettings, seo?: SeoContext) {
   // Everything here lands in <head>. Stega markers there would show up in
@@ -35,7 +70,10 @@ export function buildMeta(page?: PageDoc | null, settings?: SiteSettings, seo?: 
   const description = stegaClean(
     page?.seo?.description || settings?.seo?.description || settings?.tagline || '',
   )
-  const share = page?.seo?.shareImage ?? settings?.seo?.shareImage
+  // Page's own share image, then its hero photo, then the site-wide default.
+  const share = page?.seo?.shareImage?.asset
+    ? page.seo.shareImage
+    : (heroImage(page) ?? settings?.seo?.shareImage)
   const imageUrl = share?.asset ? shareImageUrl(share, 1200, 630) : undefined
   const imageAlt = stegaClean(share?.alt) || undefined
 
@@ -78,7 +116,11 @@ export function buildMeta(page?: PageDoc | null, settings?: SiteSettings, seo?: 
  * Campground structured data (a LodgingBusiness, so a LocalBusiness too) —
  * absent from the old site, and one of the higher-leverage local SEO additions.
  */
-export function localBusinessJsonLd(settings?: SiteSettings, siteUrl?: string) {
+export function localBusinessJsonLd(
+  settings?: SiteSettings,
+  siteUrl?: string,
+  homepage?: PageDoc | null,
+) {
   if (!settings) return null
 
   // Structured data is machine-read; stega would corrupt it.
@@ -87,7 +129,8 @@ export function localBusinessJsonLd(settings?: SiteSettings, siteUrl?: string) {
   // The site-wide share photo doubles as the business photo: one square and one
   // wide crop, which is what Google asks for. A real logo, once one is uploaded
   // in Studio, goes in `logo` — a photograph does not belong there.
-  const share = settings.seo?.shareImage
+  // Falls back to the homepage hero photo until a share image is set.
+  const share = settings.seo?.shareImage?.asset ? settings.seo.shareImage : heroImage(homepage)
   const photos = share?.asset
     ? [shareImageUrl(share, 1200, 1200), shareImageUrl(share, 1200, 630)]
     : undefined
@@ -105,28 +148,18 @@ export function localBusinessJsonLd(settings?: SiteSettings, siteUrl?: string) {
     '@id': siteUrl ? `${siteUrl}/#business` : undefined,
     name: settings.businessName,
     description: settings.tagline,
-    telephone: settings.phone,
+    telephone: intlPhone(settings.phone),
     email: settings.email,
     url: siteUrl,
     // The GROQ projection yields null rather than undefined when nothing has
     // been uploaded, and JSON.stringify keeps null while dropping undefined —
     // so each of these falls back to undefined, never null.
     image: photos ?? settings.logoUrl ?? undefined,
-    logo: settings.logoUrl ?? undefined,
-    address: settings.address
-      ? {
-          '@type': 'PostalAddress',
-          streetAddress: [settings.address.line1, settings.address.line2]
-            .filter(Boolean)
-            .join(', '),
-          addressLocality: settings.address.town,
-          addressRegion: settings.address.county,
-          postalCode: settings.address.postcode,
-          addressCountry: 'GB',
-        }
-      : undefined,
-    // The lake itself, from the Google Maps listing.
-    geo: {'@type': 'GeoCoordinates', latitude: 50.4439864, longitude: -4.8868606},
+    // An uploaded logo wins; until then the round mark that ships as the app
+    // icon. Google wants a raster logo at least 112px square, which this is.
+    logo: settings.logoUrl ?? (siteUrl ? `${siteUrl}/icon-512.png` : undefined),
+    address: postalAddress(settings),
+    geo: GEO,
     hasMap: 'https://www.google.com/maps/place/Tregonetha+Lake/@50.4439864,-4.8868606,15z',
     areaServed: areas.length ? areas : undefined,
     openingHoursSpecification: settings.openingHours?.map((h) => ({
@@ -172,4 +205,135 @@ export function breadcrumbJsonLd(page: PageDoc | null | undefined, siteUrl: stri
       {'@type': 'ListItem', position: 2, name, item: `${siteUrl}/${slug}`},
     ],
   }
+}
+
+/**
+ * What a page is, beyond "a page on the site" — set per page in Studio under
+ * SEO → "This page is about". Wildfire is a bar in its own right, and the
+ * weddings page describes the lake as a venue; each gets its own entity, tied
+ * back to the business on the homepage by `@id`.
+ */
+export function pageEntityJsonLd(
+  page: PageDoc | null | undefined,
+  settings: SiteSettings | undefined,
+  siteUrl: string | undefined,
+) {
+  const kind = stegaClean(page?.schemaType)
+  if (!page || !siteUrl || !kind || page.isHomepage) return null
+  settings = stegaClean(settings) as SiteSettings | undefined
+
+  const slug = stegaClean(page.slug)
+  const url = `${siteUrl}/${slug}`
+  const photo = page.seo?.shareImage?.asset ? page.seo.shareImage : heroImage(page)
+  const image = photo ? [shareImageUrl(photo, 1200, 1200), shareImageUrl(photo, 1200, 630)] : undefined
+  const description = stegaClean(page.seo?.description) || undefined
+  const business = settings?.businessName
+  const parent = {'@id': `${siteUrl}/#business`}
+
+  if (kind === 'BarOrPub') {
+    // A menu the guest can download beats pointing back at the page itself.
+    const menus = page.sections?.find((s) => s._type === 'menus') as
+      | {menus?: {fileUrl?: string | null}[] | null}
+      | undefined
+    const menuFile = menus?.menus?.find((m) => m.fileUrl)?.fileUrl
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'BarOrPub',
+      '@id': `${url}#venue`,
+      name: stegaClean(page.title),
+      url,
+      description,
+      image,
+      telephone: intlPhone(settings?.phone),
+      email: settings?.email,
+      address: postalAddress(settings),
+      geo: GEO,
+      hasMenu: menus ? (menuFile ?? url) : undefined,
+      containedInPlace: parent,
+      parentOrganization: parent,
+    }
+  }
+
+  if (kind === 'EventVenue') {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'EventVenue',
+      '@id': `${url}#venue`,
+      name: business,
+      url,
+      description,
+      image,
+      telephone: intlPhone(settings?.phone),
+      address: postalAddress(settings),
+      geo: GEO,
+      containedInPlace: parent,
+    }
+  }
+
+  return null
+}
+
+/** "7pm", "7.30pm", "19:30" → "19:30", or undefined if no clock time is in there. */
+function firstClockTime(text?: string) {
+  if (!text) return undefined
+  const m = /(\d{1,2})(?:[:.](\d{2}))?\s*(am|pm)?/i.exec(text)
+  if (!m) return undefined
+  let h = Number(m[1])
+  const min = m[2] ?? '00'
+  const ampm = m[3]?.toLowerCase()
+  if (!ampm && !m[2]) return undefined // a bare number, e.g. "Round 2", isn't a time
+  if (ampm === 'pm' && h < 12) h += 12
+  if (ampm === 'am' && h === 12) h = 0
+  if (h > 23) return undefined
+  return `${String(h).padStart(2, '0')}:${min}`
+}
+
+/** UK clock offset on a date: "+00:00" in winter, "+01:00" in summer. */
+function londonOffset(date: string) {
+  const name = new Intl.DateTimeFormat('en-GB', {timeZone: 'Europe/London', timeZoneName: 'longOffset'})
+    .formatToParts(new Date(`${date}T12:00:00Z`))
+    .find((p) => p.type === 'timeZoneName')?.value
+  const m = /GMT([+-]\d{2}:\d{2})/.exec(name ?? '')
+  return m ? m[1] : '+00:00'
+}
+
+/**
+ * Event structured data for the upcoming events in a What's On section, so
+ * gigs and quiz nights can appear as events in Google. Dates come from Studio
+ * as calendar days; the start time is read from the free-text time field
+ * ("7pm – 10pm") when it has one, and left off when it doesn't.
+ */
+export function eventsJsonLd(events: EventDoc[], settings?: SiteSettings) {
+  if (!events.length) return null
+  settings = stegaClean(settings) as SiteSettings | undefined
+  const venue = {
+    '@type': 'Place',
+    name: settings?.businessName ?? 'Tregonetha Lake',
+    address: postalAddress(settings),
+    geo: GEO,
+  }
+
+  return events
+    .map((raw) => {
+      const e = stegaClean(raw) as EventDoc
+      if (!e.title || !e.startDate) return null
+      const time = firstClockTime(e.time)
+      const start = time ? `${e.startDate}T${time}:00${londonOffset(e.startDate)}` : e.startDate
+      const tickets = e.button?.link?.kind === 'external' ? e.button.link.href : undefined
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'Event',
+        name: e.title,
+        startDate: start,
+        endDate: e.endDate && e.endDate !== e.startDate ? e.endDate : undefined,
+        description: e.description || undefined,
+        image: e.image?.asset ? [shareImageUrl(e.image, 1200, 630)] : undefined,
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        location: venue,
+        organizer: {'@type': 'Organization', name: venue.name},
+        offers: tickets ? {'@type': 'Offer', url: tickets} : undefined,
+      }
+    })
+    .filter(Boolean)
 }

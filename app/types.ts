@@ -121,6 +121,8 @@ export type PageDoc = {
   isHomepage?: boolean | null
   sections?: Section[] | null
   seo?: Seo
+  /** What the page describes, for structured data. Set under SEO in Studio. */
+  schemaType?: 'BarOrPub' | 'EventVenue' | null
 }
 
 export type SiteData = {
