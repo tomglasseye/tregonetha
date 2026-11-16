@@ -1,0 +1,48 @@
+{
+  "name": "tregonetha-lake",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n site,studio -c cyan,magenta \"npm:dev:site\" \"npm:dev:studio\"",
+    "dev:site": "react-router dev",
+    "dev:studio": "npm --prefix studio run dev",
+    "build": "react-router build && npm run build:studio",
+    "build:studio": "npm --prefix studio ci && npm --prefix studio run build -- ../build/client/studio",
+    "start": "react-router-serve ./build/server/index.js",
+    "preview": "node --env-file=.env ./node_modules/@react-router/serve/bin.cjs ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc --noEmit && npm --prefix studio run typecheck",
+    "check:forms": "node scripts/check-forms.mjs",
+    "studio:deploy": "npm --prefix studio run deploy",
+    "schema:deploy": "npm --prefix studio run schema:deploy",
+    "build:icons": "node scripts/build-icons.mjs",
+    "check:seo": "node scripts/check-seo.mjs"
+  },
+  "dependencies": {
+    "@netlify/vite-plugin-react-router": "^4.0.0",
+    "@portabletext/react": "^8.0.1",
+    "@react-router/node": "^8.3.1",
+    "@react-router/serve": "^8.3.1",
+    "@sanity/client": "^8.4.0",
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/preview-url-secret": "^4.1.5",
+    "@sanity/react-loader": "^2.2.1",
+    "@sanity/visual-editing": "^6.1.1",
+    "groq": "^6.11.0",
+    "isbot": "^5.1.36",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router": "^8.3.1"
+  },
+  "devDependencies": {
+    "@react-router/dev": "^8.3.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "concurrently": "^9.1.0",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.2"
+  }
+}
