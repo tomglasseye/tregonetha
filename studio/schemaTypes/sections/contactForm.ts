@@ -33,8 +33,8 @@ export const contactForm = defineType({
       initialValue: ['name', 'email', 'phone', 'service', 'message'],
       options: {
         list: [
-          {title: 'Name (always required)', value: 'name'},
-          {title: 'Email', value: 'email'},
+          {title: 'Name (always shown, required)', value: 'name'},
+          {title: 'Email (always shown, required)', value: 'email'},
           {title: 'Phone', value: 'phone'},
           {title: 'Enquiring about', value: 'service'},
           {title: 'Postcode', value: 'postcode'},
@@ -44,7 +44,7 @@ export const contactForm = defineType({
         ],
       },
       description:
-        'Choose which fields the form shows. Name is always included.',
+        'Choose which fields the form shows. Name and email are always included and required.',
     }),
     defineField({
       name: 'serviceOptions',
