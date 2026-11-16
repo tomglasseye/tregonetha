@@ -21,13 +21,9 @@ export function Hero({section, settings}: {section: HeroSection; settings?: Site
       <section id={opt(appearance?.anchorId)} data-tone="mist" className="relative bg-mist text-lake">
         <div className="grid lg:grid-cols-[1.2fr_1fr]">
           <div className="relative min-h-[18rem] sm:min-h-[24rem] lg:min-h-[36rem]">
-            <Figure
-              image={image}
-              priority
-              sizes="(min-width: 1024px) 55vw, 100vw"
-              rounded={false}
-              className="absolute inset-0 h-full w-full"
-            />
+            <div className="absolute inset-0">
+              <Figure image={image} priority sizes="(min-width: 1024px) 55vw, 100vw" rounded={false} className="h-full w-full" />
+            </div>
             {/* The photo fades into the panel along its right-hand edge. */}
             <div
               aria-hidden
@@ -75,13 +71,9 @@ export function Hero({section, settings}: {section: HeroSection; settings?: Site
         <div className="relative flex min-h-[34rem] items-center justify-center overflow-hidden md:min-h-[44rem]">
           {hasImage ? (
             <>
-              <Figure
-                image={image}
-                priority
-                sizes="100vw"
-                rounded={false}
-                className="absolute inset-0 h-full w-full"
-              />
+              <div className="absolute inset-0">
+                <Figure image={image} priority sizes="100vw" rounded={false} className="h-full w-full" />
+              </div>
               {/* Editors upload whatever photo they have. A bright sky or
                   sunlit water leaves cream type unreadable, so the scrim is
                   strong enough to carry text on any of them. */}
@@ -141,13 +133,9 @@ export function Hero({section, settings}: {section: HeroSection; settings?: Site
         <div className="relative flex min-h-[20rem] items-end overflow-hidden md:min-h-[26rem]">
           {hasImage ? (
             <>
-              <Figure
-                image={image}
-                priority
-                sizes="100vw"
-                rounded={false}
-                className="absolute inset-0 h-full w-full"
-              />
+              <div className="absolute inset-0">
+                <Figure image={image} priority sizes="100vw" rounded={false} className="h-full w-full" />
+              </div>
               <div
                 aria-hidden
                 className="absolute inset-0 bg-gradient-to-t from-lake/90 via-lake/45 to-lake/20"
