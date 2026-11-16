@@ -70,16 +70,15 @@ export function Campsuite({section, settings}: {section: CampsuiteSection; setti
       {calendars.length ? (
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {calendars.map((c) => (
-            <div key={c._key} className="rounded-panel bg-white p-5 text-ink shadow-sm ring-1 ring-black/5">
-              <h3 className="mb-4 text-lg font-bold text-lake">{c.label}</h3>
+            <div key={c._key}>
+              <h3 className="mb-3 text-lg font-bold">{c.label}</h3>
               <Widget layout="calendar" typeId={c.typeId} />
             </div>
           ))}
         </div>
       ) : (
-        <div className={layout === 'bar' ? '' : 'rounded-panel bg-white p-5 text-ink shadow-sm ring-1 ring-black/5 md:p-8'}>
-          <Widget layout={layout} />
-        </div>
+        // The widget draws its own card, so no panel around it here.
+        <Widget layout={layout} />
       )}
 
       <ButtonRow buttons={buttons} settings={settings} tone={tone} className="mt-6" />
