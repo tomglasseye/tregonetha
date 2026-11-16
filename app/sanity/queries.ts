@@ -114,6 +114,16 @@ const sectionsFragment = /* groq */ `
       }
     },
 
+    // Newest first. Carp-only sections skip the silvers.
+    _type == "catches" => {
+      "items": *[_type == "catchReport" && defined(photo.asset) && defined(date)
+        && (^.carpOnly != true || species in ["Common carp", "Mirror carp", "Ghost carp"])
+      ] | order(date desc, _createdAt desc) [0...12] {
+        _id, species, weight, date, angler, note,
+        photo { ${imageFragment} }
+      }
+    },
+
     _type == "richText" => {
       body[] {
         ...,

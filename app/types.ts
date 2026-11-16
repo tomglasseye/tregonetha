@@ -338,6 +338,23 @@ export type EventsSection = BaseSection & {
   items?: EventDoc[] | null
 }
 
+export type CatchReport = {
+  _id?: string
+  species?: string
+  weight?: string
+  date?: string
+  angler?: string
+  note?: string
+  photo?: SanityImage
+}
+
+export type CatchesSection = BaseSection & {
+  _type: 'catches'
+  carpOnly?: boolean
+  limit?: number
+  items?: CatchReport[] | null
+}
+
 export type EmbedSection = BaseSection & {
   _type: 'embed'
   embedUrl?: string
@@ -366,6 +383,7 @@ export type AnySection =
   | IconNavSection
   | MenusSection
   | EventsSection
+  | CatchesSection
   | EmbedSection
 
 export type IconNavSection = BaseSection & {

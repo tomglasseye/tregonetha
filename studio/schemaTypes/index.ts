@@ -25,6 +25,7 @@ import {priceTable} from './sections/priceTable'
 import {infoList} from './sections/infoList'
 import {menus} from './sections/menus'
 import {events} from './sections/events'
+import {catches} from './sections/catches'
 import {embed} from './sections/embed'
 import {iconNav} from './sections/iconNav'
 
@@ -32,6 +33,7 @@ import {iconNav} from './sections/iconNav'
 import {page} from './documents/page'
 import {testimonial} from './documents/testimonial'
 import {event} from './documents/event'
+import {catchReport} from './documents/catch'
 import {redirect} from './documents/redirect'
 import {siteSettings} from './documents/siteSettings'
 import {navigation} from './documents/navigation'
@@ -58,6 +60,7 @@ export const sections = [
   infoList,
   menus,
   events,
+  catches,
   embed,
   iconNav,
 ]
@@ -66,6 +69,7 @@ export const documents = [
   page,
   testimonial,
   event,
+  catchReport,
   redirect,
   siteSettings,
   navigation,

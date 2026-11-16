@@ -161,6 +161,23 @@ export function localBusinessJsonLd(
     address: postalAddress(settings),
     geo: GEO,
     hasMap: 'https://www.google.com/maps/place/Tregonetha+Lake/@50.4439864,-4.8868606,15z',
+    // What the site has, in the terms Google reads for campsites. Fixed facts
+    // about the place rather than Studio content — edit here if they change.
+    petsAllowed: true,
+    amenityFeature: [
+      'Two-acre carp and coarse fishing lake',
+      'Day, night and 24-hour fishing tickets',
+      'Lakeside bell tents',
+      'Hot showers',
+      'Compost toilets',
+      'Lakeside bar and kitchen',
+    ].map((name) => ({'@type': 'LocationFeatureSpecification', name, value: true})),
+    containsPlace: {
+      '@type': 'LakeBodyOfWater',
+      name: 'Tregonetha Lake',
+      description:
+        'A two-acre lake with two peninsulas and two small islands, stocked with Common, Mirror and Ghost carp.',
+    },
     areaServed: areas.length ? areas : undefined,
     openingHoursSpecification: settings.openingHours?.map((h) => ({
       '@type': 'OpeningHoursSpecification',

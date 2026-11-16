@@ -19,6 +19,7 @@ import {PriceTable} from './sections/PriceTable'
 import {InfoList} from './sections/InfoList'
 import {Menus} from './sections/Menus'
 import {Events} from './sections/Events'
+import {Catches} from './sections/Catches'
 import {Embed} from './sections/Embed'
 import {IconNav} from './sections/IconNav'
 
@@ -57,6 +58,7 @@ const REGISTRY: SectionComponents = {
   infoList: InfoList,
   menus: Menus,
   events: Events,
+  catches: Catches,
   embed: Embed,
   iconNav: IconNav,
 }

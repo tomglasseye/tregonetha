@@ -5,6 +5,7 @@ import {DocumentIcon} from '@sanity/icons/Document'
 import {CommentIcon} from '@sanity/icons/Comment'
 import {CalendarIcon} from '@sanity/icons/Calendar'
 import {ArrowRightIcon} from '@sanity/icons/ArrowRight'
+import {ImageIcon} from '@sanity/icons/Image'
 
 /** Singletons are pinned; everything else lists normally. */
 export const structure: StructureResolver = (S) =>
@@ -23,6 +24,15 @@ export const structure: StructureResolver = (S) =>
           S.documentTypeList('event')
             .title('Events')
             .defaultOrdering([{field: 'startDate', direction: 'desc'}]),
+        ),
+
+      S.listItem()
+        .title('Catch reports')
+        .icon(ImageIcon)
+        .child(
+          S.documentTypeList('catchReport')
+            .title('Catch reports')
+            .defaultOrdering([{field: 'date', direction: 'desc'}]),
         ),
 
       S.listItem()

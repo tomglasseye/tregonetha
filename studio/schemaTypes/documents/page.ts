@@ -22,6 +22,7 @@ export const SECTION_TYPES = [
   'infoList',
   'menus',
   'events',
+  'catches',
   'embed',
   'iconNav',
 ] as const
@@ -63,7 +64,7 @@ export const page = defineType({
         {name: 'lead', title: 'Lead', of: ['hero', 'imageBanner', 'statement']},
         {name: 'body', title: 'Body', of: ['iconNav', 'serviceCards', 'richText', 'textWithImage', 'featureList', 'faq']},
         {name: 'details', title: 'Prices & details', of: ['priceTable', 'infoList', 'menus', 'events']},
-        {name: 'proof', title: 'Proof', of: ['testimonials', 'gallery', 'logoStrip', 'stats']},
+        {name: 'proof', title: 'Proof', of: ['catches', 'testimonials', 'gallery', 'logoStrip', 'stats']},
         {name: 'convert', title: 'Book & contact', of: ['embed', 'callToAction', 'contactForm', 'contactDetails']},
       ]}},
       validation: (r) => r.required().min(1),
