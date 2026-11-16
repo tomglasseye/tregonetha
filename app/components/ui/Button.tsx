@@ -12,7 +12,7 @@ type Props = {
 }
 
 const BASE =
-  'inline-flex min-h-11 items-center justify-center gap-2 rounded-pill px-6 py-3 text-base font-semibold transition-colors duration-200 no-underline'
+  'inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap rounded-pill px-6 py-3 text-base font-semibold transition-colors duration-200 no-underline'
 
 function classesFor(variant: string, tone?: Tone) {
   const onDark = tone === 'lake'
