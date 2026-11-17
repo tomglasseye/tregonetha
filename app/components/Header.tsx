@@ -79,20 +79,19 @@ export function Header({
 						to="/"
 						className="flex shrink-0 items-center gap-3 font-display text-lg font-bold leading-tight text-inherit no-underline md:text-xl"
 					>
-						<picture>
-							{/* Phones always get the dark mark: it sits on a white disc. */}
-							<source
-								media="(max-width: 47.99rem)"
-								srcSet={logoSrc(settings, 112, "dark")}
-							/>
-							<img
-								src={logoSrc(settings, 112, open ? "light" : "dark")}
-								alt=""
-								width={56}
-								height={56}
-								className="h-12 w-12 rounded-full bg-white p-1.5 shadow-[0_2px_10px_rgba(14,74,67,0.18)] md:h-14 md:w-14 md:rounded-none md:bg-transparent md:p-0 md:shadow-none"
-							/>
-						</picture>
+						{/* Phones: dark mark on a white disc, flipping to a white mark on
+						    a green disc while the menu is open. */}
+						<img
+							src={logoSrc(settings, 112, open ? "light" : "dark")}
+							alt=""
+							width={56}
+							height={56}
+							className={`h-12 w-12 rounded-full p-1.5 transition-colors duration-300 md:h-14 md:w-14 md:rounded-none md:bg-transparent md:p-0 md:shadow-none ${
+								open
+									? "bg-lake"
+									: "bg-white shadow-[0_2px_10px_rgba(14,74,67,0.18)]"
+							}`}
+						/>
 						<span className="sr-only md:not-sr-only">
 							{settings?.businessName ?? "Tregonetha Lake"}
 						</span>
@@ -177,7 +176,11 @@ export function Header({
 							onClick={() => setOpen((v) => !v)}
 							aria-expanded={open}
 							aria-controls="site-menu"
-							className="relative inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-lake shadow-[0_2px_10px_rgba(14,74,67,0.18)] transition-colors hover:text-teal md:rounded-input md:bg-transparent md:text-inherit md:shadow-none"
+							className={`relative inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300 md:rounded-input md:bg-transparent md:text-inherit md:shadow-none ${
+								open
+									? "bg-lake text-cream hover:opacity-80"
+									: "bg-white text-lake shadow-[0_2px_10px_rgba(14,74,67,0.18)] hover:text-teal"
+							}`}
 						>
 							<span className="sr-only">
 								{open ? "Close menu" : "Open menu"}
