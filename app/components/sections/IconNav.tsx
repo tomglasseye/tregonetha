@@ -16,10 +16,10 @@ export function IconNav({section}: {section: IconNavSection}) {
       <nav aria-label="Explore Tregonetha Lake">
         <ul className="u-icon-nav grid grid-cols-2 gap-y-8 sm:grid-cols-3 lg:grid-cols-[repeat(auto-fit,minmax(0,1fr))]">
           {items.map((item, i) => (
-            <li key={item._key ?? i} className="px-3 first:pl-0">
+            <li key={item._key ?? i} className="px-1 sm:px-3 lg:first:pl-0">
               <Link
                 to={item.href ?? '#'}
-                className="group flex items-center justify-center gap-4 rounded-input px-2 py-2 text-lake no-underline"
+                className="group flex items-center justify-start gap-3 rounded-input px-2 py-2 text-lake no-underline sm:justify-center md:gap-4"
               >
                 <LineIcon
                   name={item.icon}
