@@ -386,3 +386,15 @@
     .u-icon-nav > li + li { border-left: 0; }
   }
 }
+
+/*
+  On phones the header is fixed and transparent (see Header.tsx). Image heroes
+  run up underneath it to the top of the page; any other first section is
+  pushed down by the header's height so nothing hides behind the buttons.
+*/
+@layer components {
+  @media (max-width: 47.99rem) {
+    #main { padding-top: 5rem; }
+    #main:has(> [data-hero-bleed]:first-child) { padding-top: 0; }
+  }
+}

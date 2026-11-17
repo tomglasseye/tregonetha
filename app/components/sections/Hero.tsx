@@ -18,7 +18,7 @@ export function Hero({section, settings}: {section: HeroSection; settings?: Site
     // line and turquoise button on the right and a wave rising across the
     // bottom. Stacks on phones: photo first, then the panel.
     return (
-      <section id={opt(appearance?.anchorId)} data-tone="mist" className="relative bg-mist text-lake">
+      <section data-hero-bleed id={opt(appearance?.anchorId)} data-tone="mist" className="relative bg-mist text-lake">
         <div className="grid lg:grid-cols-[1.2fr_1fr]">
           <div className="relative min-h-[18rem] sm:min-h-[24rem] lg:min-h-[36rem]">
             <div className="absolute inset-0">
@@ -64,6 +64,7 @@ export function Hero({section, settings}: {section: HeroSection; settings?: Site
 
     return (
       <section
+        data-hero-bleed
         id={opt(appearance?.anchorId)}
         data-tone="lake"
         className="u-wave-edge bg-lake text-cream"
@@ -126,6 +127,7 @@ export function Hero({section, settings}: {section: HeroSection; settings?: Site
     const hasImage = Boolean(image?.asset ?? image?.url)
     return (
       <section
+        data-hero-bleed
         id={opt(appearance?.anchorId)}
         data-tone="lake"
         className="u-wave-edge bg-lake text-cream"

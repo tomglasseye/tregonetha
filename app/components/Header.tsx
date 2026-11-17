@@ -61,10 +61,13 @@ export function Header({
 		<>
 			<header
 				data-open={open}
-				className={`sticky top-0 z-50 transition-colors duration-300 ${
+				// On phones the bar is fixed and see-through, floating over the hero;
+				// only the logo, call and menu buttons show, each on a white disc.
+				// From md up it is the solid sticky bar.
+				className={`fixed inset-x-0 top-0 z-50 text-lake transition-colors duration-300 md:sticky ${
 					open
-						? "bg-transparent text-cream"
-						: "bg-mist text-lake shadow-[0_1px_0_0_rgba(14,74,67,0.08)]"
+						? "md:bg-transparent md:text-cream"
+						: "md:bg-mist md:shadow-[0_1px_0_0_rgba(14,74,67,0.08)]"
 				}`}
 			>
 				{/* On desktop the logo and the buttons get equal-width side columns, so
@@ -76,14 +79,21 @@ export function Header({
 						to="/"
 						className="flex shrink-0 items-center gap-3 font-display text-lg font-bold leading-tight text-inherit no-underline md:text-xl"
 					>
-						<img
-							src={logoSrc(settings, 112, open ? "light" : "dark")}
-							alt=""
-							width={56}
-							height={56}
-							className="h-12 w-12 md:h-14 md:w-14"
-						/>
-						<span className="sr-only sm:not-sr-only">
+						<picture>
+							{/* Phones always get the dark mark: it sits on a white disc. */}
+							<source
+								media="(max-width: 47.99rem)"
+								srcSet={logoSrc(settings, 112, "dark")}
+							/>
+							<img
+								src={logoSrc(settings, 112, open ? "light" : "dark")}
+								alt=""
+								width={56}
+								height={56}
+								className="h-12 w-12 rounded-full bg-white p-1.5 shadow-[0_2px_10px_rgba(14,74,67,0.18)] md:h-14 md:w-14 md:rounded-none md:bg-transparent md:p-0 md:shadow-none"
+							/>
+						</picture>
+						<span className="sr-only md:not-sr-only">
 							{settings?.businessName ?? "Tregonetha Lake"}
 						</span>
 					</Link>
@@ -137,7 +147,7 @@ export function Header({
 							<a
 								href={telHref(phone)}
 								aria-label={`Call ${settings?.phoneLabel ?? "us"} on ${phone}`}
-								className={`inline-flex h-11 w-11 items-center justify-center text-lake transition-opacity duration-200 md:hidden ${
+								className={`inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-lake shadow-[0_2px_10px_rgba(14,74,67,0.18)] transition-opacity duration-200 md:hidden ${
 									open
 										? "pointer-events-none opacity-0"
 										: "opacity-100"
@@ -148,7 +158,7 @@ export function Header({
 						) : null}
 
 						<span
-							className={`hidden transition-opacity duration-200 sm:inline-flex ${
+							className={`hidden transition-opacity duration-200 md:inline-flex ${
 								open
 									? "pointer-events-none opacity-0"
 									: "opacity-100"
@@ -167,7 +177,7 @@ export function Header({
 							onClick={() => setOpen((v) => !v)}
 							aria-expanded={open}
 							aria-controls="site-menu"
-							className="relative inline-flex h-11 w-11 items-center justify-center rounded-input transition-colors hover:text-teal"
+							className="relative inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-lake shadow-[0_2px_10px_rgba(14,74,67,0.18)] transition-colors hover:text-teal md:rounded-input md:bg-transparent md:text-inherit md:shadow-none"
 						>
 							<span className="sr-only">
 								{open ? "Close menu" : "Open menu"}
