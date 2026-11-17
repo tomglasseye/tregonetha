@@ -79,8 +79,8 @@ export function Header({
 						to="/"
 						className="flex shrink-0 items-center gap-3 font-display text-lg font-bold leading-tight text-inherit no-underline md:text-xl"
 					>
-						{/* Phones: dark mark on a white disc, flipping to a white mark on
-						    a green disc while the menu is open. */}
+						{/* Phones: dark mark on a white disc, flipping to a white mark with no
+						    disc while the menu is open. */}
 						<img
 							src={logoSrc(settings, 112, open ? "light" : "dark")}
 							alt=""
@@ -88,7 +88,7 @@ export function Header({
 							height={56}
 							className={`h-12 w-12 rounded-full p-1.5 transition-colors duration-300 md:h-14 md:w-14 md:rounded-none md:bg-transparent md:p-0 md:shadow-none ${
 								open
-									? "bg-lake"
+									? "bg-transparent"
 									: "bg-white shadow-[0_2px_10px_rgba(14,74,67,0.18)]"
 							}`}
 						/>
@@ -178,7 +178,7 @@ export function Header({
 							aria-controls="site-menu"
 							className={`relative inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors duration-300 md:rounded-input md:bg-transparent md:text-inherit md:shadow-none ${
 								open
-									? "bg-lake text-cream hover:opacity-80"
+									? "bg-transparent text-cream hover:opacity-80"
 									: "bg-white text-lake shadow-[0_2px_10px_rgba(14,74,67,0.18)] hover:text-teal"
 							}`}
 						>
