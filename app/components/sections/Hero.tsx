@@ -22,7 +22,7 @@ export function Hero({section, settings}: {section: HeroSection; settings?: Site
         <div className="grid lg:grid-cols-[1.2fr_1fr]">
           <div className="relative min-h-[18rem] sm:min-h-[24rem] lg:min-h-[36rem]">
             <div className="absolute inset-0">
-              <Figure image={image} priority sizes="(min-width: 1024px) 55vw, 100vw" rounded={false} className="h-full w-full" />
+              <Figure image={image} priority sizes={{bleed: true, fraction: 1.2 / 2.2, bleedFrom: 'lg'}} rounded={false} className="h-full w-full" />
             </div>
             {/* The photo fades into the panel along its right-hand edge. */}
             <div
@@ -73,7 +73,7 @@ export function Hero({section, settings}: {section: HeroSection; settings?: Site
           {hasImage ? (
             <>
               <div className="absolute inset-0">
-                <Figure image={image} priority sizes="100vw" rounded={false} className="h-full w-full" />
+                <Figure image={image} priority sizes={{bleed: true}} rounded={false} className="h-full w-full" />
               </div>
               {/* Editors upload whatever photo they have. A bright sky or
                   sunlit water leaves cream type unreadable, so the scrim is
@@ -136,7 +136,7 @@ export function Hero({section, settings}: {section: HeroSection; settings?: Site
           {hasImage ? (
             <>
               <div className="absolute inset-0">
-                <Figure image={image} priority sizes="100vw" rounded={false} className="h-full w-full" />
+                <Figure image={image} priority sizes={{bleed: true}} rounded={false} className="h-full w-full" />
               </div>
               <div
                 aria-hidden
@@ -207,7 +207,7 @@ export function Hero({section, settings}: {section: HeroSection; settings?: Site
           image={image}
           priority
           aspect={4 / 3}
-          sizes="(min-width: 1024px) 50vw, 100vw"
+          sizes={{cols: {base: 1, lg: 2}, gap: {base: 40, lg: 64}}}
           className="aspect-[4/5] lg:aspect-[4/3]"
         />
       </div>

@@ -18,6 +18,7 @@
     "check:seo": "node scripts/check-seo.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/montserrat": "^5.3.0",
     "@netlify/vite-plugin-react-router": "^4.0.0",
     "@portabletext/react": "^8.0.1",
     "@react-router/node": "^8.3.1",

@@ -97,7 +97,11 @@ export function Gallery({section, settings}: {section: GallerySection; settings?
               <Figure
                 image={img}
                 aspect={1}
-                sizes="(min-width: 768px) 33vw, 50vw"
+                sizes={
+                  layoutKey === 'strip'
+                    ? '(min-width: 768px) 352px, 70vw'
+                    : {cols: {base: 2, md: 3}, gap: 16}
+                }
               />
             </Reveal>
           ))}

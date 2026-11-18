@@ -37,7 +37,7 @@ export function Catches({section, settings}: {section: CatchesSection; settings?
         {items.map((c, i) => (
           <Reveal as="li" key={c._id ?? i} delay={Math.min(i, 5) * 80}>
             {c.photo ? (
-              <Figure image={c.photo} aspect={1} sizes="(min-width: 768px) 33vw, 50vw" />
+              <Figure image={c.photo} aspect={1} sizes={{cols: {base: 2, md: 3}, gap: {base: 16, md: 24}}} />
             ) : null}
             <p className={`mt-3 font-display text-lg ${onDark ? 'text-cream' : 'text-lake'}`}>
               {[c.weight, c.species].filter(Boolean).join(' ')}

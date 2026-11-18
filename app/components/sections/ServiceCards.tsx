@@ -12,6 +12,10 @@ export function ServiceCards({section}: {section: ServiceCardsSection}) {
   const tone = opt(appearance?.tone)
   const onDark = tone === 'lake'
   const muted = toneMuted(tone)
+  // Card titles sit one level under the section heading. On the homepage the
+  // cards have no heading and follow the H1 directly, where H3s would skip a
+  // level and break the outline screen readers navigate by.
+  const CardTitle = heading ? 'h3' : 'h2'
 
   return (
     <Wrapper appearance={appearance} grainSeed={section._key} reveal={false}>
@@ -39,7 +43,7 @@ export function ServiceCards({section}: {section: ServiceCardsSection}) {
                   aspect={4 / 3}
                   className="aspect-[4/3] overflow-hidden"
                   imgClassName="transition-transform duration-500 group-hover:scale-[1.04]"
-                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                  sizes={{cols: {base: 1, sm: 2, lg: cards.length >= 4 ? 4 : 3}, gap: 24}}
                 />
                 {c.icon ? (
                   <span className="absolute -bottom-6 left-5 flex h-12 w-12 items-center justify-center rounded-full bg-mist text-lake shadow-sm">
@@ -48,9 +52,9 @@ export function ServiceCards({section}: {section: ServiceCardsSection}) {
                 ) : null}
               </div>
               <div className={`flex flex-1 flex-col px-5 pb-6 ${c.icon ? 'pt-9' : 'pt-5'}`}>
-                <h3 className={`text-lg font-bold ${onDark ? 'text-cream' : 'text-lake'}`}>
+                <CardTitle className={`text-lg font-bold ${onDark ? 'text-cream' : 'text-lake'}`}>
                   {c.title}
-                </h3>
+                </CardTitle>
                 {c.summary ? <p className={`mt-3 flex-1 text-sm ${muted}`}>{c.summary}</p> : null}
                 <span
                   className={`mt-5 inline-flex items-center gap-2 text-sm font-semibold ${

@@ -12,6 +12,10 @@ import {
 import {Suspense, lazy} from 'react'
 import type {Route} from './+types/root'
 import stylesheet from './app.css?url'
+// The one font file every page needs, preloaded so text never waits on the
+// stylesheet to discover it. Vite fingerprints it to the same /assets URL the
+// @font-face in app.css points at, so the browser fetches it once.
+import montserratLatin from '@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2?url'
 import {
   checkPreviewToken,
   isInPreviewFrame,
@@ -52,13 +56,14 @@ export async function loader({request}: Route.LoaderArgs) {
 }
 
 export const links: Route.LinksFunction = () => [
-  {rel: 'preconnect', href: 'https://fonts.googleapis.com'},
-  {rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous'},
+  // Montserrat is self-hosted (see app.css): no third-party connection and no
+  // render-blocking Google Fonts stylesheet in front of first paint.
   {
-    rel: 'stylesheet',
-    // Montserrat carries everything: bold headings, regular body. Weights 400–800
-    // as one variable file.
-    href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400..800&display=swap',
+    rel: 'preload',
+    href: montserratLatin,
+    as: 'font',
+    type: 'font/woff2',
+    crossOrigin: 'anonymous',
   },
   {rel: 'stylesheet', href: stylesheet},
 

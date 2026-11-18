@@ -34,7 +34,7 @@ export function Footer({
           {(navigation?.footerColumns ?? []).map((column, i) => (
             <nav key={column._key ?? i} aria-label={column.heading ?? undefined}>
               {column.heading ? (
-                <h2 className="u-eyebrow mb-4 text-cream/60">{column.heading}</h2>
+                <h2 className="u-eyebrow mb-4 text-cream/75">{column.heading}</h2>
               ) : null}
               <ul className="space-y-2.5">
                 {(column.links ?? []).map((link, j) => (
@@ -52,7 +52,7 @@ export function Footer({
           ))}
 
           <div>
-            <h2 className="u-eyebrow mb-4 text-cream/60">Get in touch</h2>
+            <h2 className="u-eyebrow mb-4 text-cream/75">Get in touch</h2>
             <ul className="space-y-2.5 text-sm">
               {settings?.phone ? (
                 <li>
@@ -122,7 +122,7 @@ export function Footer({
               <li key={link._key ?? i}>
                 <Link
                   to={resolveHref({link: link.link}, settings)}
-                  className="text-cream/60 no-underline hover:text-cream"
+                  className="text-cream/75 no-underline hover:text-cream"
                 >
                   {link.label}
                 </Link>

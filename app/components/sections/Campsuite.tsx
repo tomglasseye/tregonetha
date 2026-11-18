@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import {useEffect, useRef} from 'react'
 import type {CampsuiteSection, SiteSettings} from '~/types'
 import {ButtonRow} from '../ui/Button'
 import {Section as Wrapper} from '../ui/Section'
@@ -22,20 +22,48 @@ declare module 'react' {
   }
 }
 
+function loadCampsuiteScript() {
+  if (document.querySelector(`script[src="${WIDGET_SRC}"]`)) return
+  const s = document.createElement('script')
+  s.src = WIDGET_SRC
+  s.async = true
+  s.dataset.cfasync = 'false'
+  document.body.appendChild(s)
+}
+
 /**
- * Loads CampSuite's widget script once per visit, only on pages that show it.
+ * Loads CampSuite's widget script once per visit, only on pages that show it,
+ * and only once the booking section is coming into view.
+ *
+ * The script is ~93KB, a third of it unused on first load, and CampSuite serves
+ * it with a one-hour cache we can't change. Fetching it up front cost the
+ * homepage on Lighthouse even though the widget sits below the fold on phones.
+ * The 600px margin starts the download about a screen ahead of the section, so
+ * by the time anyone reaches it the widget has normally upgraded already; until
+ * then the plain "Check availability" link inside it still works.
+ *
  * It defines <campsuite-availability>, which upgrades any element already on
  * the page and any React adds later on client-side navigation.
  */
-function useCampsuiteScript() {
+function useCampsuiteScript(target: React.RefObject<HTMLElement | null>) {
   useEffect(() => {
-    if (document.querySelector(`script[src="${WIDGET_SRC}"]`)) return
-    const s = document.createElement('script')
-    s.src = WIDGET_SRC
-    s.async = true
-    s.dataset.cfasync = 'false'
-    document.body.appendChild(s)
-  }, [])
+    const el = target.current
+    if (!el || !('IntersectionObserver' in window)) {
+      loadCampsuiteScript()
+      return
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          loadCampsuiteScript()
+          io.disconnect()
+        }
+      },
+      {rootMargin: '600px 0px'},
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [target])
 }
 
 function Widget({layout, typeId}: {layout?: string; typeId?: number}) {
@@ -57,7 +85,8 @@ function Widget({layout, typeId}: {layout?: string; typeId?: number}) {
 }
 
 export function Campsuite({section, settings}: {section: CampsuiteSection; settings?: SiteSettings}) {
-  useCampsuiteScript()
+  const ref = useRef<HTMLDivElement>(null)
+  useCampsuiteScript(ref)
   const {eyebrow, heading, intro, buttons, appearance} = section
   const tone = opt(appearance?.tone)
   const layout = opt(section.layout) ?? 'search'
@@ -67,6 +96,7 @@ export function Campsuite({section, settings}: {section: CampsuiteSection; setti
     <Wrapper appearance={appearance}>
       <SectionHeader eyebrow={eyebrow} heading={heading} intro={intro} tone={tone} />
 
+      <div ref={ref}>
       {calendars.length ? (
         <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {calendars.map((c) => (
@@ -80,6 +110,7 @@ export function Campsuite({section, settings}: {section: CampsuiteSection; setti
         // The widget draws its own card, so no panel around it here.
         <Widget layout={layout} />
       )}
+      </div>
 
       <ButtonRow buttons={buttons} settings={settings} tone={tone} className="mt-6" />
     </Wrapper>

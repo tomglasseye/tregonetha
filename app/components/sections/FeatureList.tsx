@@ -62,7 +62,7 @@ export function FeatureList({
                   image={item.image}
                   aspect={4 / 3}
                   className={`aspect-[4/3] ${flip ? 'lg:order-1' : ''}`}
-                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  sizes={{cols: {base: 1, lg: 2}, gap: {base: 32, lg: 64}}}
                 />
               </Reveal>
             )
@@ -97,7 +97,7 @@ export function FeatureList({
                 rounded={false}
                 aspect={4 / 3}
                 className="aspect-[4/3]"
-                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                sizes={{cols: {base: 1, md: 2, lg: 3}, gap: 24}}
               />
               <div className="p-6">
                 <h3 className={`font-display text-xl ${headingColor}`}>{item.title}</h3>
