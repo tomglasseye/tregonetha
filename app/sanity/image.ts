@@ -12,11 +12,12 @@ type ImageSource = Parameters<typeof builder.image>[0]
 const QUALITY = 78
 
 /**
- * Candidate widths. Deliberately coarse — every extra step is another cache
- * entry on Sanity's CDN for a file almost nobody requests, and the browser only
- * ever picks one.
+ * Candidate widths. Steps of roughly 1.25x through the range phones actually
+ * request (a 360–430px screen at 2–3x lands anywhere from 640 to 1300), so the
+ * nearest candidate is never much bigger than the slot. Wider gaps above that:
+ * few screens need them and every step is another entry in Sanity's CDN cache.
  */
-const WIDTHS = [400, 640, 828, 1080, 1400, 1920, 2400]
+const WIDTHS = [320, 480, 640, 800, 960, 1200, 1440, 1920, 2400]
 
 export function urlFor(source: ImageSource) {
   return builder.image(source).auto('format').quality(QUALITY)
@@ -50,7 +51,9 @@ export function imageProps(image: SanityImage | undefined, options: BuildOptions
 
   // Always keep at least one candidate, even for a small source image.
   const widths = WIDTHS.filter((w) => w <= cap)
-  if (widths.length === 0) widths.push(cap)
+  // Offer the source's own width as the top candidate (a 2048px upload should
+  // be reachable on a large retina screen, not stop at 1920).
+  if (widths.length === 0 || cap > widths[widths.length - 1]) widths.push(cap)
 
   const largest = widths[widths.length - 1]
 

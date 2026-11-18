@@ -303,13 +303,13 @@ function MenuOverlay({
 
 					<div
 						style={{ "--i": tailIndex + 1 } as React.CSSProperties}
-						className="u-menu-item mt-12 space-y-1 border-t border-cream/15 pt-8 text-sm text-cream/60"
+						className="u-menu-item mt-12 space-y-1 border-t border-cream/15 pt-8 text-sm text-cream/75"
 					>
 						{settings?.email ? (
 							<p>
 								<a
 									href={`mailto:${settings.email}`}
-									className="text-cream/60 no-underline hover:text-cream"
+									className="text-cream/75 no-underline hover:text-cream"
 								>
 									{settings.email}
 								</a>

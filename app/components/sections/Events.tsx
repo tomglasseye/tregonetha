@@ -54,7 +54,7 @@ export function Events({section, settings}: {section: EventsSection; settings?: 
                     rounded={false}
                     aspect={3 / 2}
                     className="aspect-[3/2]"
-                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    sizes={{cols: {base: 1, md: 2, lg: 3}, gap: 24}}
                   />
                 ) : null}
                 <div className="flex flex-1 flex-col p-6">

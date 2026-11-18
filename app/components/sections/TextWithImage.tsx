@@ -31,7 +31,7 @@ export function TextWithImage({section, settings}: {section: TextWithImageSectio
           image={image}
           aspect={4 / 3}
           className={`aspect-[4/3] ${imageFirst ? 'lg:order-1' : ''}`}
-          sizes="(min-width: 1024px) 50vw, 100vw"
+          sizes={{cols: {base: 1, lg: 2}, gap: {base: 40, lg: 64}}}
         />
       </div>
     </Wrapper>

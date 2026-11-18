@@ -1,4 +1,9 @@
 @import "tailwindcss";
+/* Montserrat, self-hosted (variable, 100–900). Each subset carries a
+   unicode-range, so English pages only ever download the latin file. Served
+   from /assets with an immutable cache instead of a render-blocking request
+   to Google Fonts. */
+@import "@fontsource-variable/montserrat/wght.css";
 
 /* ---------------------------------------------------------------------------
    Tregonetha Lake design tokens.
@@ -25,8 +30,8 @@
   --color-rule: #b9cfc6;      /* hairlines */
 
   /* Type --------------------------------------------------------------- */
-  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Montserrat Variable", "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Montserrat Variable", "Montserrat", ui-sans-serif, system-ui, sans-serif;
 
   --text-display: 4.5rem;
   --text-display--line-height: 1.05;

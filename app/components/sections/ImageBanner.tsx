@@ -23,7 +23,7 @@ export function ImageBanner({section}: {section: ImageBannerSection}) {
           <Figure
             image={image}
             rounded={false}
-            sizes="(min-width: 1536px) 1400px, 100vw"
+            sizes={{}}
             className={HEIGHTS[height] ?? HEIGHTS.medium}
           />
           {overlayText ? (
